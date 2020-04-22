@@ -1,25 +1,40 @@
 import findBy from '../findBy';
 
-const arr = [
-  { name: 'маг', type: 'character', description: 'Персонаж, обладающий магическими способностями' },
-  { name: 'заклинание', type: 'attack', description: 'Атака магическим заклинанием' },
-  { name: 'урон', type: 'help', description: 'Страница описания элемента интерфейса' },
-];
+test('simple', () => {
+  const searchArray = [
+    { name: 'маг', type: 'character', description: 'Персонаж, обладающий магическими способностями' },
+    { name: 'заклинание', type: 'attack', description: 'Атака магическим заклинанием' },
+    { name: 'урон', type: 'help', description: 'Страница описания элемента интерфейса' },
+  ];
+  const finder = findBy('name', 'маг');
+  const expected = [
+    { name: 'маг', type: 'character', description: 'Персонаж, обладающий магическими способностями' },
+  ];
+  const resolved = searchArray.filter(finder);
 
-const finder = [
-  { name: 'маг', type: 'character', description: 'Персонаж, обладающий магическими способностями' },
-];
+  expect(resolved).toEqual(expected);
+});
 
-test('find by item', () => {
-  const finder1 = findBy('name', 'маг');
-  const finder2 = findBy('name');
-  const finder3 = findBy();
+test('simple without value', () => {
+  const searchArray = [
+    { name: 'маг', type: 'character', description: 'Персонаж, обладающий магическими способностями' },
+    { name: 'заклинание', type: 'attack', description: 'Атака магическим заклинанием' },
+    { name: 'урон', type: 'help', description: 'Страница описания элемента интерфейса' },
+  ];
+  const finder = findBy('name');
+  const expected = [];
+  const resolved = searchArray.filter(finder);
+  expect(resolved).toEqual(expected);
+});
 
-  const result1 = arr.filter(finder1);
-  const result2 = arr.filter(finder2);
-  const result3 = arr.filter(finder3);
-
-  expect(result1).toEqual(finder);
-  expect(result2).toEqual([]);
-  expect(result3[0].name).toEqual('маг');
+test('empty args search', () => {
+  const searchArray = [
+    { name: 'маг', type: 'character', description: 'Персонаж, обладающий магическими способностями' },
+    { name: 'заклинание', type: 'attack', description: 'Атака магическим заклинанием' },
+    { name: 'урон', type: 'help', description: 'Страница описания элемента интерфейса' },
+  ];
+  const finder = findBy();
+  const expected = searchArray;
+  const resolved = searchArray.filter(finder);
+  expect(resolved).toEqual(expected);
 });
